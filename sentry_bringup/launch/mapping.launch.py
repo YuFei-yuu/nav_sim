@@ -11,11 +11,6 @@ def generate_launch_description():
 
   config_path = os.path.join(
       get_package_share_directory('sentry_bringup'), 'params') 
-
-  rm_base_node=IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([os.path.join(
-          get_package_share_directory('rm_base'), 'launch', 'rm_base.launch.py')])
-  )
   
   twist2chassis_cmd_node=Node(
     package='cmd_chassis',
