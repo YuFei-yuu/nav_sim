@@ -2,9 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="TEST">
     <ReactiveSequence>
-      <RunOnce then_skip="true">
-        <Script code="spin:=false"/>
-      </RunOnce>
       <Topics2Blackboard target_armor_id="{target_armor_id}"
                          tracking="{tracking}"
                          projectile_allowance_17mm="{projectile_sllowance}"
@@ -18,38 +15,20 @@
                          stage_remain_time="{stage_remain_time}"
                          game_progress="{game_progress}"
                          current_hp="{current_hp}"/>
-      <Spin hurt_type="{hurt_type}"
-            current_hp="{current_hp}"
-            spin="{spin}"/>
-      <ReactiveFallback>
-        <Nav2Pose goal="0.0,0.0,0.0,0.0,0.0,0.0,0.0"/>
-        <KeepRunningUntilFailure>
-          <AntiAutoAim speed="0.1"
-                       msec="4"/>
-        </KeepRunningUntilFailure>
-      </ReactiveFallback>
+      <Sequence _while="game_progress==4">
+        <Nav2Pose goal="0.3,2.8,0.0,0.0,0.0,0.0,0.0"/>
+        <Sleep msec="1000"/>
+        <Nav2Pose goal="0.5,0.5,0.0,0.0,0.0,0.0,0.0"/>
+        <Sleep msec="1000"/>
+      </Sequence>
     </ReactiveSequence>
   </BehaviorTree>
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="AntiAutoAim">
-      <input_port name="speed"
-                  type="float"/>
-      <input_port name="msec"
-                  type="float"/>
-    </Action>
     <Action ID="Nav2Pose">
       <input_port name="goal"
                   type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">goal send to navigator.</input_port>
-    </Action>
-    <Action ID="Spin">
-      <input_port name="hurt_type"
-                  type="unsigned char"/>
-      <input_port name="current_hp"
-                  type="unsigned short"/>
-      <input_port name="spin"
-                  type="bool">spin or not.</input_port>
     </Action>
     <Action ID="Topics2Blackboard">
       <output_port name="target_armor_id"
